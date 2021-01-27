@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src='{{ object.author.profile.image.url }}'>
+            <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user_posts' object.author.username %}">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y"}}</small>
+                {% if object.author == user %}
+                <div>
+                    <a class='btn btn-secondary btn-sm mt-t mb-1' href="{% url 'post_update' object.id %}">Update</a>
+                    <a class='btn btn-danger btn-sm mt-t mb-1' href="{% url 'post_delete' object.id %}">Delete</a>
+                </div>
+                {% endif %}
+                <!--Build in template tags date:"F d Y" -->
+            </div>
+            <h2 class="article-title">{{ object.title }}</h2>
+            <p class="article-content">{{ object.context }}</p>
+            </div>
+        </article>
+{% endblock %}
+
+<!--when we are dealing with the detail view class, we are expecting the context of the template to called 'object'. we can either change it 
+in the views.py: context_object_name = 'posts', or we can keep the default name and change the html context to {{object.author}}-->
